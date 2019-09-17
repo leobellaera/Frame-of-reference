@@ -12,44 +12,44 @@
 #define ERROR 1
 #define EOF_REACHED 2
 
-#include <iostream>
+#include <iostream> //SACAR ESTO
 
 FileReader::FileReader(char* path, int block_size) :
-    stream(),
+    stream(path), //despues sacar esto
     block_size(block_size) {
-    if (strcmp(path, "-") == 0) {
+    /*if (strcmp(path, "-")  != 0) {
         read_from_stdin = false;
-        stream.open(path);
+        stream.open(path, std::ifstream::binary); //No se si esto sirve (binary)
     } else {
         read_from_stdin = true;
-    }
+    }*/
 }
 
 int FileReader::readBlock(std::vector<uint32_t> &destin) {
-    if (read_from_stdin) {
-        return this->read_wrapper(std::cin, destin);
-    } else {
-        return this->read_wrapper(this->stream, destin);
+    int state = SUCCESS;
+    int i = 0;
+    while (i < block_size && state == SUCCESS) {
+        state = this->readSample(destin);
     }
+    return state;
 }
 
-int FileReader::read_wrapper(std::istream& stream, std::vector<uint32_t> &destin){
-    char buf[4];
+int FileReader::readSample(std::vector<uint32_t> &destin){
+    char c, buf[UINT32_SIZE];
     uint32_t numb;
-    for (int i = 0; i < block_size; i++) {
-        if (stream.get(buf, UINT32_SIZE)) {
-            std::memcpy(&numb, buf, UINT32_SIZE);
-            numb = be32toh(numb);
-            destin.push_back(numb);
-        } else {
-            if (stream.eof()) {
-                return EOF_REACHED;
-            } else if (stream.fail()) {
-                return ERROR;
-            }
-        }
+    int i = 0;
+    while (i < UINT32_SIZE && this->stream.get(c)){
+        std::memcpy(&buf[i], &c, 1);
     }
-    return SUCCESS;
+    if (stream.fail()) {
+        return ERROR;
+    } else {
+        std::memcpy(&numb, buf, UINT32_SIZE);
+        numb = be32toh(numb);
+        std::cout<<(unsigned)numb<<"\n"; //para debug
+        destin.push_back(numb);
+        return stream.good() ? SUCCESS : EOF_REACHED;
+    }
 }
 
 FileReader::~FileReader() {

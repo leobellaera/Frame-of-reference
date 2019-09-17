@@ -7,8 +7,6 @@
 
 int main(int argc, char *argv[]) {
     int first_param = atoi(argv[1]);
-    //std::cout<<first_param<<'\n';
-    //std::cout<<argv[1]<<'\n';
     FrameOfReference FOR(first_param, argv[2], argv[3]);
     FOR.compressFile();
     return 0;
