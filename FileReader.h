@@ -11,11 +11,12 @@
 
 class FileReader {
     private:
-        ifstream stream;
+        std::ifstream stream;
+        int block_size;
         bool read_from_stdin;
         int read_wrapper(std::istream& stream, std::vector<uint32_t> &destin);
     public:
-        FileReader(char* path);
+        FileReader(char* path, int block_size);
         int readBlock(std::vector<uint32_t> &destin);
         ~FileReader();
 

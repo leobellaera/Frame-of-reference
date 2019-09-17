@@ -1,10 +1,14 @@
 #include "BlockCompressor.h"
 #include <iostream>
 #include <cstring>
+#include <vector>
 #include "Block.h"
 
 int main() {
-    uint32_t test[3] = {100, 5, 3};
+    std::vector<uint32_t> test;
+    test.push_back(95);
+    test.push_back(5);
+    test.push_back(3);
     int size = 3;
     BlockCompressor b(size);
     Block block(test, 3);

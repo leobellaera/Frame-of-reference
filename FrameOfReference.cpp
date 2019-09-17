@@ -14,11 +14,11 @@
 #define EOF_REACHED 2
 
 FrameOfReference::FrameOfReference(int block_size, char* infile_path, char* outfile_path) :
+    //file_writer(outfile_path)
     block_size(block_size),
-    block_compressor(block_size),
     file_reader(infile_path, block_size),
-    outfile(outfile_path) {} //HARCODEO!!!!!!!!!!!!
-    //file_writer(outfile_path) {}
+    output(outfile_path),
+    block_compressor(block_size) {}
 
 int FrameOfReference::compressFile() {
     int state = SUCCESS;
@@ -35,11 +35,16 @@ int FrameOfReference::compressBlock() {
         return ERROR;
     }
     Block block(numbs, block_size);
+    /*HARCODEO*/
     uint32_t compressed_block_size = block_compressor.getCompressedBlockSize(block);
-    uint8_t* compression = block_compressor.compressBlock(block);
-    ofstream myfile;
-    myfile.open(outfile);
+    char* compression = (char*)block_compressor.compressBlock(block);
+    output.write((char*)compression, compressed_block_size);
+    /*HARCODEO*/
     return state;
+}
+
+FrameOfReference::~FrameOfReference() {
+    output.close(); //HARCODEO
 }
 
 
