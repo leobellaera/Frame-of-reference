@@ -7,11 +7,13 @@
 
 #include "Block.h"
 
-Block::Block(uint32_t* numbs, int size) {
-    this->size = size;
-    numbers = new uint32_t[size]();
-    for (int i = 0; i < size; i++) {
-        numbers[i] = numbs[i];
+Block::Block(std::vector<uint32_t> &numbs, int size):
+    size(size),
+    numbers(std::move(numbs)) {
+    int i = numbers.size();
+    while (i < size) {
+        numbers.push_back(numbers[i-1]);
+        i++;
     }
 }
 
@@ -46,6 +48,4 @@ uint32_t Block::getMax() {
     return max;
 }
 
-Block::~Block() {
-    delete[] numbers;
-}
+Block::~Block() {}

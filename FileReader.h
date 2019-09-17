@@ -7,20 +7,18 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 
 class FileReader {
     private:
         ifstream stream;
-        bool readFromStdin;
-        uint32_t numbs_per_block;
-        int read(std::istream& stream, uint32_t* block)
+        bool read_from_stdin;
+        int read_wrapper(std::istream& stream, std::vector<uint32_t> &destin);
     public:
         FileReader(char* path);
-        int readBlock(uint32_t* block);
+        int readBlock(std::vector<uint32_t> &destin);
         ~FileReader();
 
 };
-
-
 
 #endif //TP2_FILE_H

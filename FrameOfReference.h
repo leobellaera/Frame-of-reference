@@ -13,12 +13,13 @@ class FrameOfReference {
     private:
         int block_size;
         FileReader file_reader;
+        char* outfile; //HARCODEO
         //FileWriter file_writer;
         BlockCompressor block_compressor;
 
     public:
         FrameOfReference(int block_size, char* infile_path, char* outfile_path);
-        int compressFile(); //0 on success, 1 on error.
+        int compressFile();
         ~FrameOfReference();
 };
 
