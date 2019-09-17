@@ -11,22 +11,15 @@
 SamplesPacker::SamplesPacker(int block_size) :
         size(block_size) {}
 
-uint8_t SamplesPacker::getBitsPerSample(uint32_t* block) {
-    uint32_t max = 0;
-    for (int i = 0; i < size; i++) {
-        if (block[i] > max) {
-            max = block[i];
-        }
-    }
+uint8_t SamplesPacker::getBitsPerSample(Block& block) {
+    uint32_t max = block.getMax();
     if (max == 0) {
         return 0;
     }
     return (uint8_t)log2(max)+1;
 }
 
-
-
-void SamplesPacker::packSamples(uint32_t* block, uint8_t* buf) {
+void SamplesPacker::packSamples(Block& block, uint8_t* buf) {
     std::string compressed_block;
     this->getSamplesPackedAsString(block, compressed_block);
     const char* aux = compressed_block.c_str();
@@ -38,10 +31,10 @@ void SamplesPacker::packSamples(uint32_t* block, uint8_t* buf) {
     }
 }
 
-void SamplesPacker::getSamplesPackedAsString(uint32_t* block, std::string &string) {
+void SamplesPacker::getSamplesPackedAsString(Block &block, std::string &string) {
     int bits_per_sample = this->getBitsPerSample(block);
-    for (int i = 0; i < this->size; i++) {
-        std::bitset<32> bitset_numb(block[i]);
+    for (int i = 0; i < size; i++) {
+        std::bitset<32> bitset_numb(block.getNumber(i));
         std::string aux = bitset_numb.to_string<char,std::string::traits_type,std::string::allocator_type>();
         aux = aux.substr(32 - bits_per_sample, bits_per_sample);
         string.append(aux);
@@ -61,7 +54,5 @@ uint8_t SamplesPacker::convertBinaryByteToNumb(const char* binary) {
     return sum;
 }
 
-SamplesPacker::~SamplesPacker() {
-
-}
+SamplesPacker::~SamplesPacker() {}
 

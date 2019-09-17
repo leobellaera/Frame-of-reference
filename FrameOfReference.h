@@ -2,8 +2,8 @@
 // Created by leobellaera on 15/9/19.
 //
 
-#ifndef TP2_FRAMEOFREFERENCE_H
-#define TP2_FRAMEOFREFERENCE_H
+#ifndef FRAME_OF_REFERENCE_H
+#define FRAME_OF_REFERENCE_H
 
 #include "BlockCompressor.h"
 #include "FileReader.h"
@@ -13,7 +13,7 @@ class FrameOfReference {
     private:
         int block_size;
         FileReader file_reader;
-        FileWriter file_writer;
+        //FileWriter file_writer;
         BlockCompressor block_compressor;
 
     public:
@@ -23,4 +23,4 @@ class FrameOfReference {
 };
 
 
-#endif //TP2_FRAMEOFREFERENCE_H
+#endif //FRAME_OF_REFERENCE_H

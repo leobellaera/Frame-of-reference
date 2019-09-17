@@ -11,8 +11,9 @@
 class FileReader {
     private:
         ifstream stream;
-        char* file_path;
+        bool readFromStdin;
         uint32_t numbs_per_block;
+        int read(std::istream& stream, uint32_t* block)
     public:
         FileReader(char* path);
         int readBlock(uint32_t* block);

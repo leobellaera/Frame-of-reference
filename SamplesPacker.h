@@ -8,16 +8,17 @@
 
 #include <stdint.h>
 #include <string>
+#include "Block.h"
 
 class SamplesPacker {
     private:
         int size;
         uint8_t convertBinaryByteToNumb(const char* binary);
-        void getSamplesPackedAsString(uint32_t* block, std::string &str);
+        void getSamplesPackedAsString(Block& block, std::string &str);
     public:
         SamplesPacker(int block_size);
-        uint8_t getBitsPerSample(uint32_t* block);
-        void packSamples(uint32_t* block, uint8_t* buf);
+        uint8_t getBitsPerSample(Block& block);
+        void packSamples(Block& block, uint8_t* buf);
         ~SamplesPacker();
 };
 
