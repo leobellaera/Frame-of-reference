@@ -15,7 +15,7 @@
 #include <iostream> //SACAR ESTO
 
 FileReader::FileReader(char* path, int block_size) :
-    stream(path), //despues sacar esto
+    stream(path, std::ios::binary), //despues sacar esto
     block_size(block_size) {
     /*if (strcmp(path, "-")  != 0) {
         read_from_stdin = false;
@@ -30,23 +30,20 @@ int FileReader::readBlock(std::vector<uint32_t> &destin) {
     int i = 0;
     while (i < block_size && state == SUCCESS) {
         state = this->readSample(destin);
+        i++;
     }
     return state;
 }
 
 int FileReader::readSample(std::vector<uint32_t> &destin){
-    char c, buf[UINT32_SIZE];
+    char buf[UINT32_SIZE+1];
     uint32_t numb;
-    int i = 0;
-    while (i < UINT32_SIZE && this->stream.get(c)){
-        std::memcpy(&buf[i], &c, 1);
-    }
+    stream.get(buf, UINT32_SIZE+1);
     if (stream.fail()) {
         return ERROR;
     } else {
         std::memcpy(&numb, buf, UINT32_SIZE);
         numb = be32toh(numb);
-        std::cout<<(unsigned)numb<<"\n"; //para debug
         destin.push_back(numb);
         return stream.good() ? SUCCESS : EOF_REACHED;
     }

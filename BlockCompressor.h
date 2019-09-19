@@ -5,8 +5,8 @@
 #ifndef FRAME_OF_REFERENCE_BLOCKCOMPRESSOR_H
 #define FRAME_OF_REFERENCE_BLOCKCOMPRESSOR_H
 
-#include <stdint.h>
 #include "Block.h"
+#include <vector>
 #include "SamplesPacker.h"
 
 
@@ -16,9 +16,7 @@ class BlockCompressor {
         int size;
     public:
         BlockCompressor(int block_size);
-        uint8_t* compressBlock(Block &block);
-        uint32_t getCompressedBlockSize(Block& block);
-
+        std::vector<uint8_t> compressBlock(Block &block);
         ~BlockCompressor();
 };
 

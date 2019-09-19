@@ -19,15 +19,15 @@ uint8_t SamplesPacker::getBitsPerSample(Block& block) {
     return (uint8_t)log2(max)+1;
 }
 
-void SamplesPacker::packSamples(Block& block, uint8_t* buf) {
+void SamplesPacker::packSamples(Block& block, std::vector<uint8_t> &compression_buf) {
     std::string compressed_block;
     this->getSamplesPackedAsString(block, compressed_block);
     const char* aux = compressed_block.c_str();
-    int i = 0;
-    while (aux[i] != '\0') {
-        uint8_t numb = this->convertBinaryByteToNumb(&aux[i*8]);
-        std::memcpy(&buf[i], &numb, 1);
-        i++;
+    size_t i = 0;
+    while (i < compressed_block.length()) {
+        uint8_t numb = this->convertBinaryByteToNumb(&aux[i]);
+        compression_buf.push_back(numb);
+        i+=8;
     }
 }
 

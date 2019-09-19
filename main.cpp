@@ -7,7 +7,7 @@
 
 int main(int argc, char *argv[]) {
     int first_param = atoi(argv[1]);
-    FrameOfReference FOR(first_param, argv[2], argv[3]);
+    FrameOfReference FOR(first_param, argv[4], argv[5]);
     FOR.compressFile();
     return 0;
 }

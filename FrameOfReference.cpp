@@ -17,7 +17,7 @@ FrameOfReference::FrameOfReference(int block_size, char* infile_path, char* outf
     //file_writer(outfile_path)
     block_size(block_size),
     file_reader(infile_path, block_size),
-    output(outfile_path, std::ios::binary),
+    output(outfile_path, std::ofstream::binary),
     block_compressor(block_size) {}
 
 int FrameOfReference::compressFile() {
@@ -36,10 +36,8 @@ int FrameOfReference::compressBlock() {
     }
     Block block(numbs, block_size);
     /*HARCODEO*/
-    uint32_t compressed_block_size = block_compressor.getCompressedBlockSize(block);
-    char* compression = (char*)block_compressor.compressBlock(block);
-    output.write((char*)compression, compressed_block_size);
-    delete[] compression;
+    std::vector<uint8_t> compression = block_compressor.compressBlock(block);
+    output.write((char*)compression.data(), compression.size());
     /*HARCODEO*/
     return state;
 }

@@ -8,6 +8,7 @@
 
 #include <stdint.h>
 #include <string>
+#include <vector>
 #include "Block.h"
 
 class SamplesPacker {
@@ -18,7 +19,7 @@ class SamplesPacker {
     public:
         SamplesPacker(int block_size);
         uint8_t getBitsPerSample(Block& block);
-        void packSamples(Block& block, uint8_t* buf);
+        void packSamples(Block& block, std::vector<uint8_t> &compression_buf);
         ~SamplesPacker();
 };
 
