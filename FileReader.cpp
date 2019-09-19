@@ -44,7 +44,7 @@ int FileReader::readSample(std::vector<uint32_t> &destin){
         std::memcpy(&numb, buf, UINT32_SIZE);
         numb = be32toh(numb);
         destin.push_back(numb);
-        return input.good() ? SUCCESS : EOF_REACHED;
+        return input.eof() ? EOF_REACHED : SUCCESS;
     }
 }
 
