@@ -9,8 +9,6 @@
 #define REFERENCE_SIZE 4
 #define UINT32_SIZE 4
 
-#include <iostream>
-
 BlockCompressor::BlockCompressor(int block_size) :
     samples_packer(block_size),
     size(block_size) {}
