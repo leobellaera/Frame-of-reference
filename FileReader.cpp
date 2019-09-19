@@ -35,9 +35,9 @@ int FileReader::readBlock(std::vector<uint32_t> &destin) {
 
 int FileReader::readSample(std::vector<uint32_t> &destin){
     std::istream& input = stdin_reading ? std::cin : stream;
-    char buf[UINT32_SIZE];
+    char buf[UINT32_SIZE+1];
     uint32_t numb;
-    input.read(buf, UINT32_SIZE);
+    input.get(buf, UINT32_SIZE+1);
     if (input.fail()) {
         return ERROR;
     } else {
