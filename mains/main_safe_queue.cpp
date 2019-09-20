@@ -4,15 +4,16 @@
 
 #include "SafeQueue.h"
 #include <iostream>
+#include <stdint.h>
 #include <vector>
 
 int main() {
-    std::vector<int> vector;
+    std::vector<uint8_t> vector;
     vector.push_back(50);
-    SafeQueue<std::vector<int>*> q(9);
-    q.push(&vector);
-    std::vector<int>* top_elem = q.pop();
-    std::cout << (*top_elem)[0] << std::endl;
+    SafeQueue q(9);
+    q.push(vector);
+    std::vector<uint8_t> top_elem = q.pop();
+    std::cout << (unsigned)top_elem[0] << std::endl;
     return 0;
 }
 
