@@ -12,6 +12,7 @@
 #define SUCCESS 0
 #define ERROR 1
 #define EOF_REACHED 2
+#define REFERENCE_SIZE 4
 
 FrameOfReference::FrameOfReference(int block_size, char* infile_path, char* outfile_path) :
     //file_writer(outfile_path)
@@ -36,7 +37,8 @@ int FrameOfReference::compressBlock() {
     }
     Block block(numbs, block_size);
     /*HARCODEO*/
-    std::vector<uint8_t> compression = block_compressor.compressBlock(block);
+    std::vector<uint8_t> compression(REFERENCE_SIZE);
+    block_compressor.compressBlock(block, compression);
     output.write((char*)compression.data(), compression.size());
     /*HARCODEO*/
     return state;

@@ -16,7 +16,7 @@ class BlockCompressor {
         int size;
     public:
         BlockCompressor(int block_size);
-        std::vector<uint8_t> compressBlock(Block &block);
+        void compressBlock(Block &block, std::vector<uint8_t> &compressed_block);
         ~BlockCompressor();
 };
 
