@@ -11,7 +11,7 @@ class Thread {
     private:
         std::thread thread;
     public:
-        Thread ();
+        Thread();
         void start();
         void join();
         virtual void run() = 0;

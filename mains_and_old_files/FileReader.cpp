@@ -10,7 +10,8 @@
 
 #define UINT32_SIZE 4
 #define SUCCESS 0
-#define EOF_REACHED 1
+#define ERROR 1
+#define EOF_REACHED 2
 
 FileReader::FileReader(char* path, int block_size) :
     block_size(block_size) {
@@ -34,16 +35,16 @@ int FileReader::readBlock(std::vector<uint32_t> &destin) {
 
 int FileReader::readSample(std::vector<uint32_t> &destin){
     std::istream& input = read_from_stdin ? std::cin : stream;
-    char buf[UINT32_SIZE];
+    char buf[UINT32_SIZE+1];
     uint32_t numb;
-    input.read(buf, UINT32_SIZE);
-    if (input.eof()) {
-        return EOF_REACHED;
+    input.get(buf, UINT32_SIZE+1);
+    if (input.fail()) {
+        return ERROR;
     } else {
         std::memcpy(&numb, buf, UINT32_SIZE);
         numb = be32toh(numb);
         destin.push_back(numb);
-        return SUCCESS;
+        return input.eof() ? EOF_REACHED : SUCCESS;
     }
 }
 

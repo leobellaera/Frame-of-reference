@@ -18,16 +18,20 @@ void Writer::run() {
     std::ostream& output = write_to_stdout ? std::cout : stream;
     int queues_finished_amount = 0;
     while (queues_finished_amount != queues.size()) {
+        queues_finished_amount = 0;
         for (int i = 0; i < queues.size(); i++) {
             if (queues[i].is_closed()){
                 queues_finished_amount++;
                 continue;
             }
-            std::vector<uint8_t> compressed_block = queues[i].pop();
-            output.write((char*)compressed_block.data(), compressed_block.size());
+            this->writeBlock(i);
         }
-        queues_finished_amount = 0;
     }
+}
+
+void Writer::writeBlock(int index) {
+    std::vector<uint8_t> compressed_block = queues[index].pop();
+    output.write((char*)compressed_block.data(), compressed_block.size());
 }
 
 Writer::~Writer() {}

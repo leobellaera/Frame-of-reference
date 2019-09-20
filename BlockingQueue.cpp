@@ -9,12 +9,12 @@ BlockingQueue::BlockingQueue(size_t max_size) {
     closed = false;
 }
 
-void BlockingQueue::push(std::vector<uint8_t> elem) {
+void BlockingQueue::push(std::vector<uint8_t> &elem) {
     std::unique_lock<std::mutex> lock(m);
     while (q.size() == max_size) {
         cond_var.wait(lock);
     }
-    q.push(elem);
+    q.push(std::move(elem));
     cond_var.notify_one();
 }
 
@@ -26,10 +26,10 @@ std::vector<uint8_t> BlockingQueue::pop(){
     std::vector<uint8_t> elem = std::move(q.front());
     q.pop();
     cond_var.notify_one();
-    return elem;
+    return std::move(elem);
 }
 
-bool BlockingQueue::is_closed() { //debe ser atomica?? (creo que no)
+bool BlockingQueue::is_closed() {
     return (closed && q.empty());
 }
 

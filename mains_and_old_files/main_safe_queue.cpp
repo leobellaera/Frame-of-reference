@@ -12,7 +12,7 @@ int main() {
     vector.push_back(50);
     BlockingQueue q(9);
     q.push(vector);
-    std::vector<uint8_t> top_elem = q.pop();
+    std::vector<uint8_t> top_elem = std::move(q.pop());
     std::cout << (unsigned)top_elem[0] << std::endl;
     return 0;
 }

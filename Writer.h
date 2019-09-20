@@ -15,6 +15,7 @@ class Writer : public Thread {
         std::vector<BlockingQueue> &queues;
         std::ofstream stream;
         bool write_to_stdout;
+        writeBlock(int index);
     public:
         Writer(std::vector<BlockingQueue> &queues, char* outfile_path);
         virtual void run() override;

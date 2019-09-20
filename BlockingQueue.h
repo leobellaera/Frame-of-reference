@@ -18,7 +18,7 @@ class BlockingQueue {
         bool closed;
     public:
         BlockingQueue(size_t max_size);
-        void push(std::vector<uint8_t> elem);
+        void push(std::vector<uint8_t> &elem);
         std::vector<uint8_t> pop();
         void close();
         bool is_closed();

@@ -14,7 +14,7 @@ BlocksProcessor(BlockingQueue &queue, FileReader &fr, int n, int slot, int block
     file_reader(fr),
     processors_amount(n),
     slot(slot),
-    block_compressor(block_size){}
+    block_compressor(block_size) {}
 
 virtual void run() override {
     int state = CONTINUE;
@@ -36,6 +36,7 @@ int process_block(/*int block_a_leer*/) { /*metodo privado*/
     std::vector<uint8_t> compressed_block(REFERENCE_SIZE);
     block_compressor.compressBlock(block, compressed_block);
     queue.push(compressed_block);
+    return SUCC
 }
 
 ~BlocksProcessor() {}
