@@ -5,13 +5,18 @@
 #ifndef FRAME_OF_REFERENCE_WRITER_H
 #define FRAME_OF_REFERENCE_WRITER_H
 
-#include "Thread.h
+#include "Thread.h"
+#include <fstream>
+#include "BlockingQueue.h"
+#include <vector>
 
 class Writer : public Thread {
     private:
-        std::vector<SafeQueue>& queues;
+        std::vector<BlockingQueue> &queues;
+        std::ofstream stream;
+        bool write_to_stdout;
     public:
-        Writer(std::vector<SafeQueue>, char* outfile_path);
+        Writer(std::vector<BlockingQueue> &queues, char* outfile_path);
         virtual void run() override;
         ~Writer();
 };

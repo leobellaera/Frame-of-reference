@@ -16,10 +16,10 @@
 FileReader::FileReader(char* path, int block_size) :
     block_size(block_size) {
     if (strcmp(path, "-")  != 0) {
-        stdin_reading = false;
+        read_from_stdin = false;
         stream.open(path, std::ifstream::binary);
     } else {
-        stdin_reading = true;
+        read_from_stdin = true;
     }
 }
 
@@ -34,7 +34,7 @@ int FileReader::readBlock(std::vector<uint32_t> &destin) {
 }
 
 int FileReader::readSample(std::vector<uint32_t> &destin){
-    std::istream& input = stdin_reading ? std::cin : stream;
+    std::istream& input = read_from_stdin ? std::cin : stream;
     char buf[UINT32_SIZE+1];
     uint32_t numb;
     input.get(buf, UINT32_SIZE+1);
@@ -48,8 +48,4 @@ int FileReader::readSample(std::vector<uint32_t> &destin){
     }
 }
 
-FileReader::~FileReader() {
-    if (stream.is_open()) {
-        stream.close();
-    }
-}
+FileReader::~FileReader() {}

@@ -13,7 +13,7 @@ class FileReader {
     private:
         std::ifstream stream;
         int block_size;
-        bool stdin_reading;
+        bool read_from_stdin;
         int readSample(std::vector<uint32_t> &destin);
     public:
         FileReader(char* path, int block_size);

@@ -2,13 +2,14 @@
 // Created by leobellaera on 20/9/19.
 //
 
-#include "SafeQueue.h"
+#include "BlockingQueue.h"
 
-SafeQueue::SafeQueue(size_t max_size) {
+BlockingQueue::BlockingQueue(size_t max_size) {
     this->max_size = max_size;
+    closed = false;
 }
 
-void SafeQueue::push(std::vector<uint8_t> &elem) {
+void BlockingQueue::push(std::vector<uint8_t> elem) {
     std::unique_lock<std::mutex> lock(m);
     while (q.size() == max_size) {
         cond_var.wait(lock);
@@ -17,7 +18,7 @@ void SafeQueue::push(std::vector<uint8_t> &elem) {
     cond_var.notify_one();
 }
 
-std::vector<uint8_t> SafeQueue::pop(){
+std::vector<uint8_t> BlockingQueue::pop(){
     std::unique_lock<std::mutex> lock(m);
     while(q.empty()) {
         cond_var.wait(lock);
@@ -28,4 +29,12 @@ std::vector<uint8_t> SafeQueue::pop(){
     return elem;
 }
 
-SafeQueue::~SafeQueue() {}
+bool BlockingQueue::is_closed() { //debe ser atomica?? (creo que no)
+    return (closed && q.empty());
+}
+
+void BlockingQueue::close() {
+    closed = true;
+}
+
+BlockingQueue::~BlockingQueue() {}
