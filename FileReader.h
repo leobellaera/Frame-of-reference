@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <mutex>
 #include <vector>
 
 class FileReader {
@@ -14,10 +15,11 @@ class FileReader {
         std::ifstream stream;
         int block_size;
         bool read_from_stdin;
+        std::mutex m;
         int readSample(std::vector<uint32_t> &destin);
     public:
         FileReader(char* path, int block_size);
-        int readBlock(std::vector<uint32_t> &destin);
+        int readBlock(std::vector<uint32_t> &destin, int block_to_read);
         ~FileReader();
 
 };

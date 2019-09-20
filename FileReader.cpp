@@ -22,10 +22,12 @@ FileReader::FileReader(char* path, int block_size) :
     }
 }
 
-int FileReader::readBlock(std::vector<uint32_t> &destin) {
+int FileReader::readBlock(std::vector<uint32_t> &destin, int block_to_read) {
+    std::unique_lock<std::mutex> lock(m);
     int state = SUCCESS;
     int i = 0;
     while (i < block_size && state == SUCCESS) {
+        
         state = this->readSample(destin);
         i++;
     }

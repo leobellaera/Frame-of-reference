@@ -15,8 +15,9 @@ class BlocksProcessor : public Thread {
         FileReader &file_reader;
         int processors_amount;
         int slot;
+        int process_block(int block_to_read);
     public:
-        BlocksProcessor(BlockingQueue &queue, FileReader &fr, int n, int slot);
+        BlocksProcessor(BlockingQueue &queue, FileReader &fr, int n, int slot, int block_size);
         virtual void run() override;
         ~BlocksProcessor();
 };
