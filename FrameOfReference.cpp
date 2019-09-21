@@ -9,8 +9,7 @@
 #include <iostream> //HARCODEO
 #include <fstream> //HARCODEO
 
-#define EOF_REACHED 1
-#define NO_BLOCK_TO_READ 2
+#define NO_BLOCK_TO_READ -1
 #define REFERENCE_SIZE 4
 
 FrameOfReference::FrameOfReference(int block_size, char* infile_path, char* outfile_path) :
@@ -23,7 +22,7 @@ void FrameOfReference::compressFile() {
     int i = 0;
     while (1) {
         int state = this->compressBlock(i);
-        if (state == NO_BLOCK_TO_READ || state == EOF_REACHED) {
+        if (state == NO_BLOCK_TO_READ) {
             return;
         }
         i++;
