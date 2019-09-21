@@ -12,12 +12,12 @@
 
 class Writer : public Thread {
     private:
-        std::vector<BlockingQueue> &queues;
+        std::vector<BlockingQueue*> &queues;
         std::ofstream stream;
         bool write_to_stdout;
-        writeBlock(int index);
+        void writeBlock(int index, std::ostream& output);
     public:
-        Writer(std::vector<BlockingQueue> &queues, char* outfile_path);
+        Writer(std::vector<BlockingQueue*> &queues, char* outfile_path);
         virtual void run() override;
         ~Writer();
 };

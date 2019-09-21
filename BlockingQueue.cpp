@@ -30,10 +30,12 @@ std::vector<uint8_t> BlockingQueue::pop(){
 }
 
 bool BlockingQueue::is_closed() {
+    std::unique_lock<std::mutex> lock(m);
     return (closed && q.empty());
 }
 
 void BlockingQueue::close() {
+    std::unique_lock<std::mutex> lock(m);
     closed = true;
 }
 

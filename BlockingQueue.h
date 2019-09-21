@@ -6,6 +6,7 @@
 #define FRAME_OF_REFERENCE_BLOCKINGQUEUE_H
 
 #include <queue>
+#include <stdint.h>
 #include <mutex>
 #include <condition_variable>
 

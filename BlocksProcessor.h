@@ -8,16 +8,19 @@
 #include "Thread.h"
 #include "FileReader.h"
 #include "BlockingQueue.h"
+#include "BlockCompressor.h"
 
 class BlocksProcessor : public Thread {
     private:
-        BlockingQueue &queue;
+        BlockingQueue* queue;
         FileReader &file_reader;
+        BlockCompressor block_compressor;
         int processors_amount;
         int slot;
+        int block_size;
         int process_block(int block_to_read);
     public:
-        BlocksProcessor(BlockingQueue &queue, FileReader &fr, int n, int slot, int block_size);
+        BlocksProcessor(BlockingQueue* queue, FileReader &fr, int n, int slot, int block_size);
         virtual void run() override;
         ~BlocksProcessor();
 };

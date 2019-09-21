@@ -10,12 +10,13 @@
 #define EOF_REACHED 1
 #define NO_BLOCK_TO_READ -1
 
-BlocksProcessor::BlocksProcessor(BlockingQueue &queue, FileReader &fr, int n, int slot, int block_size) :
+BlocksProcessor::BlocksProcessor(BlockingQueue* queue, FileReader &fr, int n, int slot, int block_size) :
     queue(queue),
     file_reader(fr),
+    block_compressor(block_size),
     processors_amount(n),
     slot(slot),
-    block_compressor(block_size) {}
+    block_size(block_size) {}
 
 void BlocksProcessor::run() {
     int state = SUCCESS;
@@ -31,17 +32,17 @@ int BlocksProcessor::process_block(int block_to_read) {
     std::vector<uint32_t> numbs;
     int state = file_reader.readBlock(numbs, block_to_read);
     if (state == NO_BLOCK_TO_READ) {
-        queue.close();
+        queue->close();
         return NO_BLOCK_TO_READ;
     }
     Block block(numbs, block_size);
     std::vector<uint8_t> compressed_block(REFERENCE_SIZE);
     block_compressor.compressBlock(block, compressed_block);
-    queue.push(compressed_block);
+    queue->push(compressed_block);
     if (state == EOF_REACHED) {
-        queue.close();
+        queue->close();
     }
     return state;
 }
 
-~BlocksProcessor() {}
+BlocksProcessor::~BlocksProcessor() {}

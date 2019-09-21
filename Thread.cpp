@@ -23,4 +23,4 @@ Thread& Thread::operator=(Thread&& other) {
     return *this;
 }
 
-virtual Thread::~Thread() {}
+Thread::~Thread() {}
