@@ -42,8 +42,6 @@ int FileReader::readBlock(std::vector<uint32_t> &destin, int block_to_read) {
     return SUCCESS;
 }
 
-
-
 int FileReader::readSample(std::vector<uint32_t> &destin, std::istream& input){
     char buf[UINT32_SIZE];
     uint32_t numb;

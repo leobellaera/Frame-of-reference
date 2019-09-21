@@ -22,11 +22,11 @@ void Writer::run() {
     while (queues_finished_amount != queues.size()) {
         queues_finished_amount = 0;
         for (int i = 0; (size_t)i < queues.size(); i++) {
-            if (queues[i]->is_closed()){
+            if (queues[i]->is_closed()) {
                 queues_finished_amount++;
-                continue;
+            } else {
+                this->writeBlock(i, output);
             }
-            this->writeBlock(i, output);
         }
     }
 }

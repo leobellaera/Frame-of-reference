@@ -18,7 +18,7 @@ void BlockingQueue::push(std::vector<uint8_t> &elem) {
     cond_var.notify_one();
 }
 
-std::vector<uint8_t> BlockingQueue::pop(){
+std::vector<uint8_t> BlockingQueue::pop() {
     std::unique_lock<std::mutex> lock(m);
     while(q.empty()) {
         cond_var.wait(lock);
