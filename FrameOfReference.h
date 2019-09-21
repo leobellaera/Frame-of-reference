@@ -17,10 +17,10 @@ class FrameOfReference {
         std::ofstream output; //HARCODEO
         //FileWriter file_writer;
         BlockCompressor block_compressor;
-        int compressBlock();
+        int compressBlock(int block_to_read);
     public:
         FrameOfReference(int block_size, char* infile_path, char* outfile_path);
-        int compressFile();
+        void compressFile();
         ~FrameOfReference();
 };
 
