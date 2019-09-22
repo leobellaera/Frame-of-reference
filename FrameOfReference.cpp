@@ -17,13 +17,13 @@ FrameOfReference::FrameOfReference(int block_size, int threads_processors_amount
 void FrameOfReference::compress() {
     int t_size = threads.size();
     int q_size = queues.size();
-    for (int i = 0; i < t_size; ++i) {
+    for (int i = 0; i < t_size; i++) {
         threads[i]->start();
     }
-    for (int i = 0; i < t_size; ++i) {
+    for (int i = 0; i < t_size; i++) {
         threads[i]->join();
     }
-    for (int i = 0; i < t_size; ++i) {
+    for (int i = 0; i < t_size; i++) {
         delete threads[i];
         if (i < q_size) {
             delete queues[i];

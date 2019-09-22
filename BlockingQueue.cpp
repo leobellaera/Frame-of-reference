@@ -31,4 +31,8 @@ std::vector<uint8_t> BlockingQueue::pop() {
     return std::move(elem);
 }
 
+bool BlockingQueue::empty() {
+    return q.empty();
+}
+
 BlockingQueue::~BlockingQueue() {}

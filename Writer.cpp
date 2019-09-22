@@ -38,7 +38,7 @@ void Writer::run() {
             }
         }
     }
-    std::cout<<"SE REALIZARON: "<<j<<std::endl;
+    std::cout<<"PROCESE: "<<j<<std::endl;
 }
 
 int Writer::writeBlock(int index, std::ostream& output) {

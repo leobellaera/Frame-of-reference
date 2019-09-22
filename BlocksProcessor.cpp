@@ -23,6 +23,7 @@ BlocksProcessor::BlocksProcessor(BlockingQueue* queue, FileReader &fr, int n, in
     block_size(block_size) {}
 
 void BlocksProcessor::run() {
+    std::cout<<"THREAD NRO: " <<std::this_thread::get_id()<<std::endl;
     int state = SUCCESS;
     int block_to_read = slot;
     while (state == SUCCESS) {
