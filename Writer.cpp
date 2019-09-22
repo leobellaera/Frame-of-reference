@@ -24,7 +24,6 @@ void Writer::run() {
     std::ostream& output = write_to_stdout ? std::cout : stream;
     size_t queues_finished_amount = 0;
     std::vector<int> queues_finished;
-    int j = 0;
     while (queues_finished_amount != queues.size()) {
         for (int i = 0; (size_t)i < queues.size(); i++) {
             if (std::find(queues_finished.begin(), queues_finished.end(), i) != queues_finished.end()) {
@@ -33,12 +32,9 @@ void Writer::run() {
             if (this->writeBlock(i, output) == 1) {
                 queues_finished.push_back(i);
                 queues_finished_amount++;
-            } else {
-                j++;
             }
         }
     }
-    std::cout<<"PROCESE: "<<j<<std::endl;
 }
 
 int Writer::writeBlock(int index, std::ostream& output) {

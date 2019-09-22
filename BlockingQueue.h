@@ -20,7 +20,6 @@ class BlockingQueue {
         BlockingQueue(size_t max_size);
         void push(std::vector<uint8_t> &elem);
         std::vector<uint8_t> pop();
-        bool empty();
         ~BlockingQueue();
 };
 

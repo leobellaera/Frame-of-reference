@@ -16,7 +16,7 @@ class FileReader {
         int block_size;
         bool read_from_stdin;
         std::mutex m;
-        int readSample(std::vector<uint32_t> &destin, std::istream &input, int block_to_read);
+        int readSample(std::vector<uint32_t> &destin, std::istream &input);
     public:
         FileReader(char* path, int block_size);
         int readBlock(std::vector<uint32_t> &destin, int block_to_read);
