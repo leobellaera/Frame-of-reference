@@ -27,7 +27,7 @@ void Writer::run() {
     while (queues_finished_amount != queues.size()) {
         queues_finished_amount = 0;
         for (int i = 0; (size_t)i < queues.size(); i++) {
-            if (this->writeBlock(i, output) == 1) {
+            if (this->writeBlock(i, output) == QUEUE_CLOSED) {
                 queues_finished_amount++;
             }
         }

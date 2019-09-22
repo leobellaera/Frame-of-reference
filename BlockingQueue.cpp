@@ -36,7 +36,7 @@ int BlockingQueue::pop(std::vector<uint8_t> &elem) {
 }
 
 void BlockingQueue::close() {
-    std::unique_lock<std::mutex> lock(m);
+    //no lock, there is no race condition
     closed = true;
     cond_var.notify_all();
 }

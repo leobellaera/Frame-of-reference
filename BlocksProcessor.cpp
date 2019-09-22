@@ -9,7 +9,6 @@
 #define SUCCESS 0
 #define EOF_REACHED 1
 #define NO_BLOCK_TO_READ -1
-#define INVALID_NUMB_SIGNAL 255
 
 BlocksProcessor::BlocksProcessor(BlockingQueue* queue,
         FileReader &fr, int n, int slot, int block_size) :
