@@ -26,7 +26,8 @@ void Writer::run() {
     std::vector<int> queues_finished;
     while (queues_finished_amount != queues.size()) {
         for (int i = 0; (size_t)i < queues.size(); i++) {
-            if (std::find(queues_finished.begin(), queues_finished.end(), i) != queues_finished.end()) {
+            if (std::find(queues_finished.begin(), queues_finished.end(), i)
+                != queues_finished.end()) {
                 continue;
             }
             if (this->writeBlock(i, output) == 1) {
@@ -54,4 +55,5 @@ bool Writer::finish_signal_received(std::vector<uint8_t> &compressed_block) {
     }
     return true;
 }
+
 Writer::~Writer() {}

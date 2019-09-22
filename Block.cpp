@@ -2,9 +2,6 @@
 // Created by leobellaera on 16/9/19.
 //
 
-#define SUCCESS 0
-#define ERROR 1
-
 #include "Block.h"
 
 Block::Block(std::vector<uint32_t> &numbs, int size):
