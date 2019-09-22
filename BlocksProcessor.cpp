@@ -34,7 +34,7 @@ int BlocksProcessor::process_block(int block_to_read) {
     std::vector<uint32_t> numbs;
     int state = file_reader.readBlock(numbs, block_to_read);
     if (state == NO_BLOCK_TO_READ) {
-        this->push_invalid_block();
+        queue->close();
         return NO_BLOCK_TO_READ;
     }
     Block block(numbs, block_size);
@@ -42,17 +42,9 @@ int BlocksProcessor::process_block(int block_to_read) {
     block_compressor.compressBlock(block, compressed_block);
     queue->push(compressed_block);
     if (state == EOF_REACHED) {
-        this->push_invalid_block();
+        queue->close();
     }
     return state;
-}
-
-void BlocksProcessor::push_invalid_block() {
-    std::vector<uint8_t> invalid_block;
-    for (int i = 0; i < REFERENCE_SIZE; i++) {
-        invalid_block.push_back(INVALID_NUMB_SIGNAL);
-    }
-    queue->push(invalid_block);
 }
 
 BlocksProcessor::~BlocksProcessor() {}

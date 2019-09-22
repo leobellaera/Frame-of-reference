@@ -17,10 +17,12 @@ class BlockingQueue {
         std::mutex m;
         std::condition_variable cond_var;
         size_t max_size;
+        bool closed;
     public:
         explicit BlockingQueue(size_t max_size);
         void push(std::vector<uint8_t> &elem);
-        std::vector<uint8_t> pop();
+        int pop(std::vector<uint8_t> &elem);
+        void close();
         ~BlockingQueue();
 };
 

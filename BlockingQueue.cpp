@@ -5,8 +5,12 @@
 #include "BlockingQueue.h"
 #include <vector>
 
+#define QUEUE_CLOSED 1
+#define SUCCESS 0
+
 BlockingQueue::BlockingQueue(size_t max_size) :
-    max_size(max_size) {}
+    max_size(max_size),
+    closed(false) {}
 
 void BlockingQueue::push(std::vector<uint8_t> &elem) {
     std::unique_lock<std::mutex> lock(m);
@@ -17,15 +21,24 @@ void BlockingQueue::push(std::vector<uint8_t> &elem) {
     cond_var.notify_all();
 }
 
-std::vector<uint8_t> BlockingQueue::pop() {
+int BlockingQueue::pop(std::vector<uint8_t> &elem) {
     std::unique_lock<std::mutex> lock(m);
-    while (q.empty()) {
+    while (q.empty() && !closed) {
         cond_var.wait(lock);
     }
-    std::vector<uint8_t> elem = std::move(q.front());
+    if (closed && q.empty()) {
+        return QUEUE_CLOSED;
+    }
+    elem = std::move(q.front());
     q.pop();
     cond_var.notify_all();
-    return std::move(elem);
+    return SUCCESS;
+}
+
+void BlockingQueue::close() {
+    std::unique_lock<std::mutex> lock(m);
+    closed = true;
+    cond_var.notify_all();
 }
 
 BlockingQueue::~BlockingQueue() {}

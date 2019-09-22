@@ -16,7 +16,6 @@ class Writer : public Thread {
         std::ofstream stream;
         bool write_to_stdout;
         int writeBlock(int index, std::ostream& output);
-        bool finish_signal_received(std::vector<uint8_t> &compressed_block);
     public:
         Writer(std::vector<BlockingQueue*> &queues, char* outfile_path);
         virtual void run() override;
