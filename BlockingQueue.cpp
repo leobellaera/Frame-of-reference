@@ -4,13 +4,11 @@
 
 #include "BlockingQueue.h"
 
-#include <thread>
 #include <chrono>
+#include <thread>
 
-BlockingQueue::BlockingQueue(size_t max_size) {
-    this->max_size = max_size;
-    closed = false;
-}
+BlockingQueue::BlockingQueue(size_t max_size) :
+    max_size(max_size) {}
 
 void BlockingQueue::push(std::vector<uint8_t> &elem) {
     std::unique_lock<std::mutex> lock(m);
@@ -18,27 +16,19 @@ void BlockingQueue::push(std::vector<uint8_t> &elem) {
         cond_var.wait(lock);
     }
     q.push(std::move(elem));
-    cond_var.notify_one();
+    cond_var.notify_all();
 }
 
-int BlockingQueue::pop(std::vector<uint8_t> &elem) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+std::vector<uint8_t> BlockingQueue::pop() {
+    //std::this_thread::sleep_for(std::chrono::milliseconds(1));
     std::unique_lock<std::mutex> lock(m);
-    if (q.empty() && closed) {
-        return 1;
-    }
-    while(q.empty()) {
+    while (q.empty()) {
         cond_var.wait(lock);
     }
-    elem = std::move(q.front());
+    std::vector<uint8_t> elem = std::move(q.front());
     q.pop();
-    cond_var.notify_one();
-    return 0;
-}
-
-void BlockingQueue::close() {
-    //std::unique_lock<std::mutex> lock(m);
-    closed = true;
+    cond_var.notify_all();
+    return std::move(elem);
 }
 
 BlockingQueue::~BlockingQueue() {}

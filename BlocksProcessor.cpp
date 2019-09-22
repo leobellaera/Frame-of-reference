@@ -5,10 +5,14 @@
 #include "BlocksProcessor.h"
 #include <vector>
 
+#include <thread>
+#include <iostream>
+
 #define REFERENCE_SIZE 4
 #define SUCCESS 0
 #define EOF_REACHED 1
 #define NO_BLOCK_TO_READ -1
+#define INVALID_NUMB_SIGNAL 255
 
 BlocksProcessor::BlocksProcessor(BlockingQueue* queue, FileReader &fr, int n, int slot, int block_size) :
     queue(queue),
@@ -32,7 +36,7 @@ int BlocksProcessor::process_block(int block_to_read) {
     std::vector<uint32_t> numbs;
     int state = file_reader.readBlock(numbs, block_to_read);
     if (state == NO_BLOCK_TO_READ) {
-        queue->close();
+        this->push_invalid_block();
         return NO_BLOCK_TO_READ;
     }
     Block block(numbs, block_size);
@@ -40,9 +44,17 @@ int BlocksProcessor::process_block(int block_to_read) {
     block_compressor.compressBlock(block, compressed_block);
     queue->push(compressed_block);
     if (state == EOF_REACHED) {
-        queue->close();
+        this->push_invalid_block();
     }
     return state;
+}
+
+void BlocksProcessor::push_invalid_block() {
+    std::vector<uint8_t> invalid_block;
+    for (int i = 0; i < REFERENCE_SIZE; i++) {
+        invalid_block.push_back(INVALID_NUMB_SIGNAL);
+    }
+    queue->push(invalid_block);
 }
 
 BlocksProcessor::~BlocksProcessor() {}
