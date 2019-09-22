@@ -21,7 +21,8 @@ class BlocksProcessor : public Thread {
         int process_block(int block_to_read);
         void push_invalid_block();
     public:
-        BlocksProcessor(BlockingQueue* queue, FileReader &fr, int n, int slot, int block_size);
+        BlocksProcessor(BlockingQueue* queue,
+                FileReader &fr, int n, int slot, int block_size);
         virtual void run() override;
         ~BlocksProcessor();
 };

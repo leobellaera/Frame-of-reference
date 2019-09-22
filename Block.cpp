@@ -3,6 +3,7 @@
 //
 
 #include "Block.h"
+#include <vector>
 
 Block::Block(std::vector<uint32_t> &numbs, int size):
     size(size),

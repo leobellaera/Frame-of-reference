@@ -4,12 +4,13 @@
 
 #include "FrameOfReference.h"
 
-FrameOfReference::FrameOfReference(int block_size, int threads_processors_amount, int q_size,
-        char* infile_path, char* outfile_path) :
+FrameOfReference::FrameOfReference(int block_size, int processors_amount,
+        int q_size, char* infile_path, char* outfile_path) :
     file_reader(infile_path, block_size) {
-    for (int i = 0; i < threads_processors_amount; ++i) {
+    for (int i = 0; i < processors_amount; ++i) {
         queues.push_back(new BlockingQueue(q_size));
-        threads.push_back(new BlocksProcessor(queues[i], file_reader, threads_processors_amount, i, block_size));
+        threads.push_back(new BlocksProcessor(queues[i],
+                file_reader, processors_amount, i, block_size));
     }
     threads.push_back(new Writer(queues, outfile_path));
 }

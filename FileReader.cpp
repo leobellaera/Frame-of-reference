@@ -3,9 +3,10 @@
 //
 
 #include "FileReader.h"
-#include <string.h>
 #include <iostream>
+#include <string.h>
 #include <cstring>
+#include <vector>
 #include <endian.h>
 
 #define UINT32_SIZE 4

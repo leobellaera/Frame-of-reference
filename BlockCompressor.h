@@ -7,6 +7,7 @@
 
 #include "Block.h"
 #include <vector>
+#include <stdint.h>
 #include "SamplesPacker.h"
 
 
@@ -15,9 +16,10 @@ class BlockCompressor {
         SamplesPacker samples_packer;
         int size;
     public:
-        BlockCompressor(int block_size);
-        void compressBlock(Block &block, std::vector<uint8_t> &compressed_block);
+        explicit BlockCompressor(int block_size);
+        void compressBlock(Block &block,
+                std::vector<uint8_t> &compressed_block);
         ~BlockCompressor();
 };
 
-#endif //FRAME_OF_REFERENCE_BLOCKCOMPRESSOR_H
+#endif

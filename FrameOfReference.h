@@ -18,8 +18,8 @@ class FrameOfReference {
         std::vector<BlockingQueue*> queues;
         std::vector<Thread*> threads;
     public:
-        FrameOfReference(int block_size, int threads_processors_amount, int q_size,
-                char* infile_path, char* outfile_path);
+        FrameOfReference(int block_size, int processors_amount,
+                int q_size, char* infile_path, char* outfile_path);
         void compress();
         ~FrameOfReference();
 };

@@ -6,6 +6,7 @@
 #define FRAME_OF_REFERENCE_BLOCKINGQUEUE_H
 
 #include <queue>
+#include <vector>
 #include <stdint.h>
 #include <mutex>
 #include <condition_variable>
@@ -17,7 +18,7 @@ class BlockingQueue {
         std::condition_variable cond_var;
         size_t max_size;
     public:
-        BlockingQueue(size_t max_size);
+        explicit BlockingQueue(size_t max_size);
         void push(std::vector<uint8_t> &elem);
         std::vector<uint8_t> pop();
         ~BlockingQueue();

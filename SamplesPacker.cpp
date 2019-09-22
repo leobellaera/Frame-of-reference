@@ -5,6 +5,8 @@
 #include "SamplesPacker.h"
 #include <bitset>
 #include <math.h>
+#include <vector>
+#include <string>
 #include <cstring>
 #define UINT32_SIZE 4
 
@@ -19,7 +21,8 @@ uint8_t SamplesPacker::getBitsPerSample(Block& block) {
     return (uint8_t)log2(max)+1;
 }
 
-void SamplesPacker::packSamples(Block& block, std::vector<uint8_t> &compression_buf) {
+void SamplesPacker::packSamples(Block& block,
+        std::vector<uint8_t> &compression_buf) {
     std::string compressed_block;
     this->getSamplesPackedAsString(block, compressed_block);
     const char* aux = compressed_block.c_str();
@@ -31,11 +34,13 @@ void SamplesPacker::packSamples(Block& block, std::vector<uint8_t> &compression_
     }
 }
 
-void SamplesPacker::getSamplesPackedAsString(Block &block, std::string &string) {
+void SamplesPacker::getSamplesPackedAsString(Block &block,
+        std::string &string) {
     int bits_per_sample = this->getBitsPerSample(block);
     for (int i = 0; i < size; i++) {
         std::bitset<32> bitset_numb(block.getNumber(i));
-        std::string aux = bitset_numb.to_string<char,std::string::traits_type,std::string::allocator_type>();
+        std::string aux = bitset_numb.to_string<char,
+                std::string::traits_type,std::string::allocator_type>();
         aux = aux.substr(32 - bits_per_sample, bits_per_sample);
         string.append(aux);
     }

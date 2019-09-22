@@ -11,7 +11,8 @@
 #define NO_BLOCK_TO_READ -1
 #define INVALID_NUMB_SIGNAL 255
 
-BlocksProcessor::BlocksProcessor(BlockingQueue* queue, FileReader &fr, int n, int slot, int block_size) :
+BlocksProcessor::BlocksProcessor(BlockingQueue* queue,
+        FileReader &fr, int n, int slot, int block_size) :
     queue(queue),
     file_reader(fr),
     block_compressor(block_size),

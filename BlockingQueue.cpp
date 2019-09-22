@@ -3,6 +3,7 @@
 //
 
 #include "BlockingQueue.h"
+#include <vector>
 
 BlockingQueue::BlockingQueue(size_t max_size) :
     max_size(max_size) {}

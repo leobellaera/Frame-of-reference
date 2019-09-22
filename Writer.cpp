@@ -5,6 +5,7 @@
 #include "Writer.h"
 #include <iostream>
 #include <algorithm>
+#include <vector>
 #include <cstring>
 
 #define REFERENCE_SIZE 4

@@ -5,9 +5,9 @@
 #ifndef TP2_FILE_H
 #define TP2_FILE_H
 
-#include <iostream>
 #include <fstream>
 #include <mutex>
+#include <stdint.h>
 #include <vector>
 
 class FileReader {
@@ -21,7 +21,6 @@ class FileReader {
         FileReader(char* path, int block_size);
         int readBlock(std::vector<uint32_t> &destin, int block_to_read);
         ~FileReader();
-
 };
 
 #endif //TP2_FILE_H
