@@ -3,9 +3,10 @@
 //
 
 #include "FileReader.h"
-#include <string.h>
 #include <iostream>
+#include <string.h>
 #include <cstring>
+#include <vector>
 #include <endian.h>
 
 #define UINT32_SIZE 4
@@ -26,6 +27,7 @@ FileReader::FileReader(char* path, int block_size) :
 int FileReader::readBlock(std::vector<uint32_t> &destin, int block_to_read) {
     std::unique_lock<std::mutex> lock(m);
     std::istream& input = read_from_stdin ? std::cin : stream;
+    input.clear();
     input.seekg(UINT32_SIZE * block_size * block_to_read);
     if (input.fail()) {
         return NO_BLOCK_TO_READ;

@@ -17,7 +17,7 @@ class SamplesPacker {
         uint8_t convertBinaryByteToNumb(const char* binary);
         void getSamplesPackedAsString(Block& block, std::string &str);
     public:
-        SamplesPacker(int block_size);
+        explicit SamplesPacker(int block_size);
         uint8_t getBitsPerSample(Block& block);
         void packSamples(Block& block, std::vector<uint8_t> &compression_buf);
         ~SamplesPacker();

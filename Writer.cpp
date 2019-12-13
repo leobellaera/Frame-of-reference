@@ -4,7 +4,12 @@
 
 #include "Writer.h"
 #include <iostream>
+#include <algorithm>
+#include <vector>
 #include <cstring>
+
+#define QUEUE_CLOSED 1
+#define SUCCESS 0
 
 Writer::Writer(std::vector<BlockingQueue*> &queues, char* outfile_path) :
     queues(queues) {
@@ -22,20 +27,20 @@ void Writer::run() {
     while (queues_finished_amount != queues.size()) {
         queues_finished_amount = 0;
         for (int i = 0; (size_t)i < queues.size(); i++) {
-            std::vector<uint8_t> comp;
-            if (this->writeBlock(i, output, comp) == 1) {
+            if (this->writeBlock(i, output) == QUEUE_CLOSED) {
                 queues_finished_amount++;
             }
         }
     }
 }
 
-int Writer::writeBlock(int index, std::ostream& output, std::vector<uint8_t> &compressed_block) {
+int Writer::writeBlock(int index, std::ostream& output) {
+    std::vector<uint8_t> compressed_block;
     if (queues[index]->pop(compressed_block) == 1) {
-        return 1;
+        return QUEUE_CLOSED;
     }
     output.write((char*)compressed_block.data(), compressed_block.size());
-    return 0;
+    return SUCCESS;
 }
 
 Writer::~Writer() {}

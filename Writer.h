@@ -15,7 +15,7 @@ class Writer : public Thread {
         std::vector<BlockingQueue*> &queues;
         std::ofstream stream;
         bool write_to_stdout;
-        int writeBlock(int index, std::ostream& output, std::vector<uint8_t> &compressed_block);
+        int writeBlock(int index, std::ostream& output);
     public:
         Writer(std::vector<BlockingQueue*> &queues, char* outfile_path);
         virtual void run() override;

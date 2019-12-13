@@ -5,9 +5,10 @@
 #include "BlockingQueue.h"
 #include <iostream>
 #include <stdint.h>
+#include <thread>
 #include <vector>
 
-int main() {
+int main(int argc, char* argv[]) {
     std::vector<uint8_t> vector;
     vector.push_back(50);
     BlockingQueue q(9);
